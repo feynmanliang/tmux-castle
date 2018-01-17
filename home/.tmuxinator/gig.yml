@@ -1,7 +1,7 @@
-# ~/.tmuxinator/school.yml
+# ~/.tmuxinator/gig.yml
 
-name: school
-root: ~/17-18
+name: gig
+root: ~/
 
 # Optional tmux socket
 # socket_name: foo
@@ -28,11 +28,18 @@ root: ~/17-18
 # attach: false
 
 # Runs after everything. Use it to attach to tmux with custom options etc.
-# post: tmux -CC attach -t school
+# post: tmux -CC attach -t gig
 
 windows:
-  - editor:
-      root: ~/17-18/
+  - services:
       layout: main-vertical
-        - k
-        - vim
+      # Synchronize all panes of this window, can be enabled before or after the pane commands run.
+      # 'before' represents legacy functionality and will be deprecated in a future release, in favour of 'after'
+      # synchronize: after
+      panes:
+        - cd ~/.ghq/github.com/liquidlabs-co/api && docker-compose up postgres rabbitmq vault
+        - cd ~/.ghq/github.com/liquidlabs-co/api && sleep 5 && n 8.9.4 && yarn run dev
+        - cd ~/.ghq/github.com/liquidlabs-co/gigster && ./node_modules/.bin/grunt serve
+        - cd ~/.ghq/github.com/liquidlabs-co/gigster-dashboard-gigster && yarn run dev
+  - api: cd ~/.ghq/github.com/liquidlabs-co/api && vim
+  - gigster: cd ~/.ghq/github.com/liquidlabs-co/gigster && vim
